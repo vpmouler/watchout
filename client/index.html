@@ -1,16 +1,36 @@
 <!DOCTYPE html>
 <html>
   <head>
+  <script src="https://d3js.org/d3.v4.min.js"></script>
+  <script src="https://d3js.org/d3-dispatch.v1.min.js"></script>
+<script src="https://d3js.org/d3-selection.v1.min.js"></script>
+<script src="https://d3js.org/d3-drag.v1.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+<script>
+
+var drag = d3.drag();
+
+</script>
     <link rel='stylesheet' type='css' href='styles.css'>
   </head>
+  <div id="allButtons">
+    <button id="easy">Easy</button>
+    <button id="medium">Medium</button>
+    <button id="hard">Hard</button>
+  </div>
   <body>
+    <!-- <img src="/lib/img/huge-red-circle.svg" id="red-image" style="width:304px;height:228px;"> -->
     <div class="scoreboard">
       <!-- Modify the scoreboard when important events occur in your game! -->
       <div class="highscore">High score: <span>0</span></div>
       <div class="current">Current score: <span>0</span></div>
       <div class="collisions">Collisions: <span>0</span></div>
     </div>
+    <div class='enemy-circles'>
+    </div>
     <div class="board"><div class="mouse"></div></div>
+    <!-- <img src="http://explica.io/img/NBA/players/kobe-bryant_head.png" height="42" width="42"></img> -->
+    <script scr="lib/jquery.js"></script>
     <script src="lib/d3.js" charset="utf-8"></script>
     <script src='watchout.js'></script>
   </body>

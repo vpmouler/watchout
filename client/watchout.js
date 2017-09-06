@@ -8,8 +8,36 @@
 var difficultyArray = [900,220,400,120,200,901,391,210,341];
 
 
-$(document.body).ready(function() {
-  var response = window.prompt('Choose your difficulty: easy | medium | hard');
+// $(document.body).ready(function() {
+//   var response = window.prompt('Choose your difficulty: easy | medium | hard');
+//   if ( response === 'medium') {
+//     for (var i = 0; i < 20; i++) {
+//       difficultyArray[i] = randBetween(100,600);
+//     }
+//   } else if ( response === 'hard') {
+//     // console.log('hard!');
+//     for (var i = 0; i < 40; i++) {
+//       difficultyArray[i] = randBetween(100,600);
+
+//     }
+//   } else {
+//     difficultyArray = [900,220,400,120,200,901,391,210,341];
+//   }
+// })
+
+var highScore = 0;
+var currentScore = 0;
+var collisions = 0;
+
+function updateScore() {
+  d3.select('.highscore span').text(highscore);
+  d3.select('.current span').text(currentScore);
+  d3.select('.collisions span').text(collisions);
+}
+
+
+var response = window.prompt('Choose your difficulty: easy | medium | hard');
+
   if ( response === 'medium') {
     for (var i = 0; i < 20; i++) {
       difficultyArray[i] = randBetween(100,600);
@@ -23,8 +51,6 @@ $(document.body).ready(function() {
   } else {
     difficultyArray = [900,220,400,120,200,901,391,210,341];
   }
-})
-
 
 var cxArr = [];
 var cyArr = [];
@@ -56,7 +82,8 @@ var svgContainer = d3.select("body").append("svg")
 var circles = svgContainer.selectAll("circle")
                           .data(difficultyArray)
                           .enter()
-                          .append("circle");
+                          .append("circle")
+                          .attr('id', 'enemyCircle');
 
 
 /*var circleAttributes = circles
@@ -93,9 +120,15 @@ setInterval(function(){ circles.transition().ease('cubic')
                        } else { returnColor = "purple";
                        } return returnColor;
                       }); 
-                      cyArr = [];
-                      cxArr = [];
+                      // cyArr = [];
+                      // cxArr = [];
                     }, 500);
+
+// need to reset locations
+setInterval(function() {
+  cyArr = [];
+  cxArr = [];
+}, 1000);
 
 var drag = d3.behavior.drag();
 
@@ -157,8 +190,14 @@ function dragged(d) {
   
   // d3.select(this).attr("cx", d.x = d3.event.x).attr("cy", d.y = d3.event.y);
   d3.select(this).attr("cx", d3.event.x).attr("cy", d3.event.y);
-  // console.log('this:',this);
-  // console.log('event:', d3.event);
+
+  // var enemyCircles = d3.selectAll('#enemyCircle');
+
+  circles.each(function(ele) {
+    console.log(ele.x);
+  })
+
+
   if ( cxArr.indexOf(d3.event.x) != -1 && cyArr.indexOf(d3.event.y) !== -1 ) {
     // update collision count
     $('.current span').html(score++);
@@ -171,7 +210,18 @@ function dragged(d) {
   }
 }
 
-function checkCollision() {
+// dont use set interval use the prebuilt d3 things.
+
+function checkCollision(data1) {
+  // select all circles
+  var enemyCircles = d3.selectAll('#enemyCircle');
+
+  enemyCircles.each(function() {
+    // why cant we use the event.x?
+    console.log(event);
+    console.log(event.x);
+  })
+
   if ( cxArr.indexOf(d3.event.x) !== -1 && cyArr.indexOf(d3.event.y) !== -1 ) {
     // update collision count
     console.log('ALL GOOD!');
